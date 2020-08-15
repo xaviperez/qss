@@ -4,7 +4,7 @@
 #include "Pool.h"
 #include "Score.h"
 
-Enemy::Enemy(float x, float y, float z, std::string fileName, int index) : GameObject::GameObject(x, y, z, fileName, 2.0) {
+Enemy::Enemy(float x, float y, float z, std::string fileName, int index) : GameObject::GameObject(x, y, z, fileName, 2.0, false) {
 	_collisionLayer = "enemy";
 	_index = index;
 }

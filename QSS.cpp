@@ -18,7 +18,7 @@ QSS::QSS() : Game::Game("Quick Side Scroller", SCREEN_WIDTH, SCREEN_HEIGHT) {
 	initSounds();
 	initScore();
 
-	Player* player = new Player(50, 50, 10, "ship.png");
+	Player* player = new Player(50, 200, 10, "ship.png");
 	addGameObject(player);
 }
 
