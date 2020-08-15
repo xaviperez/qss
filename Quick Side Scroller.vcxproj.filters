@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{89ee7ce2-cde5-4603-aa47-96900c794cb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QSS">
+      <UniqueIdentifier>{9a39b9ee-df2b-40e7-b1e3-1e10e538ad1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QSS\Parallax">
+      <UniqueIdentifier>{d0e63ff0-96da-4de0-baf3-5c4a2d2d0095}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QSS\Player">
+      <UniqueIdentifier>{d77ababd-af5d-429a-b2d6-a20c09066efb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QSS\Enemy">
+      <UniqueIdentifier>{3a90b7dd-0cfb-4323-9776-61c3064e7198}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QSS\Explosion">
+      <UniqueIdentifier>{695b6100-8adb-4f79-93b6-4504342e44f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QSS\Score">
+      <UniqueIdentifier>{e2ce21c2-b6b3-46f7-9eb5-5262e508121f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="jsoncpp.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureAtlas.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\QSS\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="ParallaxLayer.cpp">
+      <Filter>Source Files\QSS\Parallax</Filter>
+    </ClCompile>
+    <ClCompile Include="Shot.cpp">
+      <Filter>Source Files\QSS\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Pool.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files\QSS\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="QSS.cpp">
+      <Filter>Source Files\QSS</Filter>
+    </ClCompile>
+    <ClCompile Include="Explosion.cpp">
+      <Filter>Source Files\QSS\Explosion</Filter>
+    </ClCompile>
+    <ClCompile Include="Score.cpp">
+      <Filter>Source Files\QSS\Score</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h">
+      <Filter>Source Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Source Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Source Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="json\json.h">
+      <Filter>Source Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureAtlas.h">
+      <Filter>Source Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Source Files\QSS\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ParallaxLayer.h">
+      <Filter>Source Files\QSS\Parallax</Filter>
+    </ClInclude>
+    <ClInclude Include="Shot.h">
+      <Filter>Source Files\QSS\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Pool.h">
+      <Filter>Source Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Source Files\QSS\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="QSS.h">
+      <Filter>Source Files\QSS</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState.h">
+      <Filter>Source Files\QSS\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Explosion.h">
+      <Filter>Source Files\QSS\Explosion</Filter>
+    </ClInclude>
+    <ClInclude Include="Score.h">
+      <Filter>Source Files\QSS\Score</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
