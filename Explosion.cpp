@@ -1,16 +1,16 @@
 #include "Explosion.h"
 
-Explosion::Explosion(float x, float y, float z, std::string fileName) : GameObject::GameObject(x, y, z, fileName, 1.0, false) {}
+Explosion::Explosion(float x, float y, float z, const char* fileName) : GameObject::GameObject(x, y, z, fileName, 1.0, false) {}
 
 Explosion::~Explosion() {}
 
 void Explosion::init(Game* game) {
 	GameObject::init(game);
 	
-	_sourceRect->w = FRAME_WIDTH;
-	_sourceRect->h = FRAME_HEIGHT;
-	_textureX = _sourceRect->x;
-	_textureY = _sourceRect->y;
+	_sourceRect.w = FRAME_WIDTH;
+	_sourceRect.h = FRAME_HEIGHT;
+	_textureX = _sourceRect.x;
+	_textureY = _sourceRect.y;
 
 	updateDestinationRect();
 }
@@ -34,7 +34,7 @@ void Explosion::update() {
 		setEnabled(false);
 	}
 
-	_sourceRect->x = _textureX + (frame * FRAME_WIDTH);
+	_sourceRect.x = _textureX + (frame * FRAME_WIDTH);
 	
 	GameObject::update();
 }

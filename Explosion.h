@@ -11,7 +11,7 @@ class Explosion : public GameObject {
 
 public:
 
-	Explosion(float x, float y, float z, std::string fileName);
+	Explosion(float x, float y, float z, const char* fileName);
 	~Explosion();
 
 	void init(Game* game) override;

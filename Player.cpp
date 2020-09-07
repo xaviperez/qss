@@ -1,11 +1,14 @@
 #include "Player.h"
+#include "Game.h"
 #include "Input.h"
 #include "Shot.h"
 #include "Pool.h"
 #include "Score.h"
+#include "Global.h"
+#include "SDL_mixer.h"
 
-Player::Player(float x, float y, float z, std::string fileName) : GameObject::GameObject(x, y, z, fileName, 2.0) {
-	_collisionLayer = "player";
+Player::Player(float x, float y, float z, const char* fileName) : GameObject::GameObject(x, y, z, fileName, ZOOM_X2) {
+	_collisionLayer = CollisionLayer::Player;
 
 	state = PlayerState::Spawn;
 	_x = SPAWN_X;
@@ -15,10 +18,10 @@ Player::~Player() {}
 
 void Player::init(Game* game) {
 	GameObject::init(game);
-	_shotsPool = _game->getPool("shots");
-	_explosionsPool = _game->getPool("explosions");
-	_fxShot = _game->getSound("laser");
-	_fxExplosion = _game->getSound("explosion");
+	_shotsPool = _game->getPool(Pools::Shots);
+	_explosionsPool = _game->getPool(Pools::Explosions);
+	_fxShot = _game->getSound(Sounds::Laser);
+	_fxExplosion = _game->getSound(Sounds::Explosion);
 }
 
 void Player::update() {
@@ -38,7 +41,7 @@ void Player::update() {
 			shoot();
 		}
 
-		if (_game->collision(this, "enemy") != nullptr) {
+		if (_game->collision(this, CollisionLayer::Enemy) != nullptr) {
 			die();
 		}
 	}

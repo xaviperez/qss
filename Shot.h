@@ -6,7 +6,7 @@ class Shot : public GameObject {
 
 public:
 
-	Shot(float x, float y, float z, std::string fileName);
+	Shot(float x, float y, float z, const char* fileName);
 	~Shot();
 
 	void update() override;

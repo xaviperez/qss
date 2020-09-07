@@ -1,4 +1,6 @@
-#include <cstdlib>
+#include <cmath>
+
+#include "Global.h"
 #include "QSS.h"
 #include "ParallaxLayer.h"
 #include "Player.h"
@@ -6,91 +8,90 @@
 #include "Explosion.h"
 #include "Shot.h"
 #include "Score.h"
+#include "Pool.h"
+#include "SDL_mixer.h"
 
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
-
-QSS::QSS() : Game::Game("Quick Side Scroller", SCREEN_WIDTH, SCREEN_HEIGHT) {
-	loadTextureAtlas("assets/qss.json");
-	playMusic("assets/music.ogg");
+QSS::QSS() : Game::Game(GAME_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT) {
+	loadTextureAtlas(ASSETS_DIR ATLAS_JSON_FILE, ASSETS_DIR ATLAS_PNG_FILE);
+	playMusic(ASSETS_DIR MUSIC_FILE);
 	initParallax();
 	initPools();
 	initSounds();
 	initScore();
-
-	Player* player = new Player(50, 200, 10, "ship.png");
-	addGameObject(player);
+	initPlayer();
 }
 
-QSS::~QSS() {}
+QSS::~QSS() {
+}
 
 void QSS::initParallax() {
-	int posY[] = { 0, 284, 266, 366, 347 };
-	std::string fileNames[] = { "bg0.png", "bg1.png", "bg2.png", "bg3.png", "fg.png" };
-	int numLayers = sizeof(posY) / sizeof(posY[0]);
+	int posY[] = { BACKGROUND_0_POS_Y, BACKGROUND_1_POS_Y, BACKGROUND_2_POS_Y, BACKGROUND_3_POS_Y, BACKGROUND_4_POS_Y };
+	const char* fileNames[] = { BACKGROUND_0_TEXTURE, BACKGROUND_1_TEXTURE, BACKGROUND_2_TEXTURE, BACKGROUND_3_TEXTURE, BACKGROUND_4_TEXTURE };
 
-	for (int i = 0; i < numLayers; i++) {
-		int speed = i == 0 ? 0 : std::pow(2, i) * 30;
+	for (int i = 0; i < NUM_PARALLAX_LAYERS; i++) {
+		int speed = i == 0 ? 0 : std::pow(2, i) * PARALLAX_SPEED;
 		addGameObject(new ParallaxLayer(posY[i], i, fileNames[i], speed, SCREEN_WIDTH));
 	}
 }
 
 void QSS::initPools() {
 	Pool* shotsPool = new Pool();
-	for (int i = 0; i < 10; i++) {
-		Shot* shot = new Shot(0, 0, 9, "shot.png");
+	for (int i = 0; i < POOL_SIZE; i++) {
+		Shot* shot = new Shot(SHOT_POS_X, SHOT_POS_Y, SHOT_POS_Z, SHOT_TEXTURE);
 		addGameObject(shot);
 		shotsPool->Add(shot);
 	}
-	_pools.insert(std::make_pair("shots", shotsPool));
+	_pools.insert(std::make_pair(Pools::Shots, shotsPool));
 
 	Pool* explosionsPool = new Pool();
-	for (int i = 0; i < 10; i++) {
-		Explosion* explosion = new Explosion(0, 0, 11, "explosion.png");
+	for (int i = 0; i < POOL_SIZE; i++) {
+		Explosion* explosion = new Explosion(EXPLOSION_POS_X, EXPLOSION_POS_Y, EXPLOSION_POS_Z, EXPLOSION_TEXTURE);
 		addGameObject(explosion);
 		explosionsPool->Add(explosion);
 	}
-	_pools.insert(std::make_pair("explosions", explosionsPool));
+	_pools.insert(std::make_pair(Pools::Explosions, explosionsPool));
 
 	Pool* enemiesPool = new Pool();
-	for (int i = 0; i < 10; i++) {
-		Enemy* enemy = new Enemy(0, 0, 8, "enemy.png", i);
+	for (int i = 0; i < POOL_SIZE; i++) {
+		Enemy* enemy = new Enemy(ENEMY_POS_X, ENEMY_POS_Y, ENEMY_POS_Z, ENEMY_TEXTURE, i);
 		addGameObject(enemy);
 		enemiesPool->Add(enemy);
 	}
-	_pools.insert(std::make_pair("enemies", enemiesPool));
+	_pools.insert(std::make_pair(Pools::Enemies, enemiesPool));
 
 }
 
 void QSS::initSounds() {
 	_sounds.clear();
-	_sounds.insert(std::make_pair("explosion", Mix_LoadWAV("assets/explosion.wav")));
-	_sounds.insert(std::make_pair("laser", Mix_LoadWAV("assets/laser.wav")));
+	_sounds.insert(std::make_pair(Sounds::Explosion, Mix_LoadWAV(ASSETS_DIR SOUND_EXPLOSION_FILE)));
+	_sounds.insert(std::make_pair(Sounds::Laser, Mix_LoadWAV(ASSETS_DIR SOUND_LASER_FILE)));
 }
 
 void QSS::spawnEnemies() {
-	Pool* enemiesPool = getPool("enemies");
-	int y = (rand() % 350) + 20;
+	Pool* enemiesPool = getPool(Pools::Enemies);
+	int y = (rand() % SPAWN_ENEMY_HEIGHT) + SPAWN_ENEMY_PADDING;
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < NUM_ENEMIES; i++) {
 		Enemy* enemy = (Enemy*) enemiesPool->Get();
-		enemy->spawn(640, y);
+		enemy->spawn(SCREEN_WIDTH, y);
 	}
 }
 
 void QSS::update() {
-	if (_frame > SPAWN_INTERVAL) {
-		_frame = 0;
+	if (frame > SPAWN_INTERVAL) {
+		frame = 0;
 		spawnEnemies();
 	}
 
 	Game::update();
-	_frame++;
+	frame++;
 }
 
 void QSS::initScore() {
 	Score::reset();
+	addGameObject(new Score(SCORE_POS_X, SCORE_POS_Y, SCORE_POS_Z, SCORE_TEXTURE));
+}
 
-	Score* score = new Score(508, 10, 20, "font.png");
-	addGameObject(score);
+void QSS::initPlayer() {
+	addGameObject(new Player(PLAYER_POS_X, PLAYER_POS_Y, PLAYER_POS_Z, PLAYER_TEXTURE));
 }

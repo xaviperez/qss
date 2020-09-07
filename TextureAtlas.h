@@ -1,23 +1,24 @@
 #pragma once
 
-#include <iostream>
-#include <fstream>
+#include <map>
+#include <string>
 
-#include "SDL.h"
-#include "SDL_image.h"
-#include "json\json.h"
+class SDL_Renderer;
+class SDL_Rect;
+class SDL_Texture;
 
 class TextureAtlas {
 public:
-	TextureAtlas(std::string fileName, SDL_Renderer* renderer);
+	TextureAtlas(const char* jsonFileName, const char* imageFileName, const SDL_Renderer* renderer);
 	~TextureAtlas();
 
-	SDL_Rect* getRect(std::string key) const;
-	SDL_Texture* getTexture() const;
+	SDL_Rect getRect(const char* key) const;
+	const SDL_Texture* getTexture() const;
 
 private:
-	std::map<std::string, SDL_Rect*> _subtextures;
-	SDL_Texture* _texture;
+	std::map<std::string, SDL_Rect> subtextures = {};
+	const SDL_Texture* texture = nullptr;
+	const SDL_Renderer* renderer = nullptr;
 
-	void loadTexture(std::string fileName, SDL_Renderer* renderer);
+	void loadTexture(const char* fileName);
 };

@@ -2,11 +2,14 @@
 
 #include "GameObject.h"
 
+class Mix_Chunk;
+class Pool;
+
 class Enemy : public GameObject {
 
 public:
 
-	Enemy(float x, float y, float z, std::string fileName, int index);
+	Enemy(float x, float y, float z, const char* fileName, int index);
 	~Enemy();
 
 	void update() override;

@@ -6,6 +6,8 @@ class Pool {
 	
 public:
 
+	~Pool();
+
 	void Add(GameObject* object);
 	GameObject* Get();
 

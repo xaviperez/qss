@@ -76,6 +76,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CollisionLayer.h" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -96,15 +97,18 @@
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Global.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="json\json.h" />
     <ClInclude Include="ParallaxLayer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="Pool.h" />
+    <ClInclude Include="Pools.h" />
     <ClInclude Include="QSS.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="Shot.h" />
+    <ClInclude Include="Sounds.h" />
     <ClInclude Include="TextureAtlas.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

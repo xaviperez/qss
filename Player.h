@@ -1,16 +1,16 @@
 #pragma once
 
-#include "SDL_mixer.h"
 #include "GameObject.h"
 #include "PlayerState.h"
-#include "Pool.h"
-#include "Explosion.h"
+
+class Mix_Chunk;
+class Pool;
 
 class Player : public GameObject {
 
 public:
 
-	Player(float x, float y, float z, std::string fileName);
+	Player(float x, float y, float z, const char* fileName);
 	~Player();
 
 	PlayerState state;

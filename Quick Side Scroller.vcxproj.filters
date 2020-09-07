@@ -70,6 +70,9 @@
     <ClCompile Include="Score.cpp">
       <Filter>Source Files\QSS\Score</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionLayer.h">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -113,6 +116,15 @@
     </ClInclude>
     <ClInclude Include="Score.h">
       <Filter>Source Files\QSS\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>Source Files\QSS</Filter>
+    </ClInclude>
+    <ClInclude Include="Pools.h">
+      <Filter>Source Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Sounds.h">
+      <Filter>Source Files\Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

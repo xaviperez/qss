@@ -1,8 +1,14 @@
+#include <iostream>
+
 #include "Game.h"
 #include "GameObject.h"
+#include "TextureAtlas.h"
+#include "SDL.h"
+#include "SDL_image.h"
+#include "SDL_mixer.h"
 #include "Input.h"
 
-Game::Game(std::string title, int width, int height) {
+Game::Game(const char* title, int width, int height) {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 		std::cerr << "SDL_Init Failed: " << SDL_GetError() << std::endl;
 		return;
@@ -20,7 +26,7 @@ Game::Game(std::string title, int width, int height) {
 	}
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 	
-	_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN);
+	_window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN);
 	if (_window == NULL) {
 		std::cerr << "SDL_CreateWindow Failed: " << SDL_GetError() << std::endl;
 		return;
@@ -37,9 +43,15 @@ Game::Game(std::string title, int width, int height) {
 }
 
 Game::~Game() {
-	SDL_DestroyWindow(_window);
-	SDL_DestroyRenderer(_renderer);
 	Mix_CloseAudio();
+
+	SDL_DestroyRenderer(_renderer);
+	SDL_DestroyWindow(_window);
+	deleteGameObjects();
+	deletePools();
+	deleteSounds();
+	deleteMusic();
+
 	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();
@@ -65,28 +77,28 @@ void Game::handleEvents() {
 }
 
 void Game::update() {
-	for (auto& gameObject : _gameObjects) {
+	for (GameObject* gameObject : _gameObjects) {
 		gameObject->update();
 	}
 }
 
 void Game::render() {
 	SDL_RenderClear(_renderer);
-	for (auto& gameObject : _gameObjects) {
+	for (GameObject* gameObject : _gameObjects) {
 		gameObject->render();
 	}
 	SDL_RenderPresent(_renderer);
 }
 
-void Game::loadTextureAtlas(std::string fileName) {
-	_textureAtlas = new TextureAtlas(fileName, _renderer);
+void Game::loadTextureAtlas(const char* jsonFileName, const char* imageFileName) {
+	_textureAtlas = new TextureAtlas(jsonFileName, imageFileName, _renderer);
 }
 
 void Game::addGameObject(GameObject* gameObject) {
 	gameObject->init(this);
 	
 	int pos = 0;
-	for (auto& current : _gameObjects) {
+	for (GameObject* current : _gameObjects) {
 		if (current->getZindex() > gameObject->getZindex()) {
 			break;
 		}
@@ -96,12 +108,12 @@ void Game::addGameObject(GameObject* gameObject) {
 	_gameObjects.insert(_gameObjects.begin() + pos, gameObject);
 }
 
-void Game::playMusic(std::string fileName) {
-	_music = Mix_LoadMUS(fileName.c_str());
+void Game::playMusic(const char* fileName) {
+	_music = Mix_LoadMUS(fileName);
 	Mix_PlayMusic(_music, -1);
 }
 
-GameObject* Game::collision(GameObject* gameObject, std::string collisionLayer) {
+GameObject* Game::collision(GameObject* gameObject, CollisionLayer collisionLayer) {
 
 	if (gameObject == nullptr || !gameObject->isEnabled())
 		return nullptr;;
@@ -112,7 +124,7 @@ GameObject* Game::collision(GameObject* gameObject, std::string collisionLayer) 
 
 		bool isDifferentGameObject = gameObject != candidate;
 		bool isCollisionLayer = candidate->getCollisionLayer() == collisionLayer;
-		bool hasCollision = SDL_HasIntersection(gameObject->getCollisionArea(), candidate->getCollisionArea()) == SDL_TRUE;
+		bool hasCollision = SDL_HasIntersection(&gameObject->getCollisionArea(), &candidate->getCollisionArea()) == SDL_TRUE;
 
 		if (isDifferentGameObject && isCollisionLayer && hasCollision) {
 			return candidate;
@@ -122,10 +134,37 @@ GameObject* Game::collision(GameObject* gameObject, std::string collisionLayer) 
 	return nullptr;
 }
 
-Pool* Game::getPool(std::string key) {
+Pool* Game::getPool(Pools key) {
 	return _pools[key];
 }
 
-Mix_Chunk* Game::getSound(std::string key) {
+Mix_Chunk* Game::getSound(Sounds key) {
 	return _sounds[key];
+}
+
+void Game::deleteGameObjects() {
+	for (GameObject* gameObject : _gameObjects) {
+		delete(gameObject);
+	}
+}
+
+void Game::deletePools() {
+	for (std::map<Pools, Pool*>::iterator itr = _pools.begin(); itr != _pools.end(); itr++)
+	{
+		delete(itr->second);
+	}
+	_pools.clear();
+}
+
+void Game::deleteSounds() {
+	for (std::map<Sounds, Mix_Chunk*>::iterator itr = _sounds.begin(); itr != _sounds.end(); itr++)
+	{
+		Mix_FreeChunk(itr->second);
+	}
+	_sounds.clear();
+}
+
+void Game::deleteMusic() {
+	if (_music != nullptr)
+		Mix_FreeMusic(_music);
 }

@@ -26,9 +26,6 @@
 // For more information, please refer to <http://unlicense.org/>
 // ----------------------------------------------------------------
 
-#include <string>
-#include "QSS.h"
-
 /*
 #include <iostream>
 
@@ -46,9 +43,8 @@ SDL_QueryTexture(tex, nullptr, nullptr, &w, &h); // query width and height of a 
 SDL_RenderCopy(renderer, tex, &section, &destination); // section of the texture and destination on the screen
 SDL_RenderPresent(renderer); // swap buffers, stall if using vsync
 
-Mix_Init(MIX_INIT_OGG); // we only need ogg
-Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048); // standard values
-music = Mix_LoadMUS("music.ogg"); // returns pointer to music
+Mix_Init(MIX_INIT_OGG); // we only need ogg   
+Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048); // standard values   
 Mix_PlayMusic(music, -1); // play music
 fx = Mix_LoadWAV("laser.wav"); // load short audio fx
 Mix_PlayChannel(-1, fx, 0); // play audio fx
@@ -64,6 +60,8 @@ SDL_HasIntersection(&react_a, &react_b); // checks for quad overlap
 */
 
 // ----------------------------------------------------------------
+
+#include "QSS.h"
 
 int main(int argc, char* args[])
 {

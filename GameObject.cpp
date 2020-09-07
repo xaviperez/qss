@@ -1,8 +1,9 @@
-#include <string>
-
 #include "GameObject.h"
+#include "Game.h"
+#include "TextureAtlas.h"
+#include "SDL.h"
 
-GameObject::GameObject(float x, float y, float z, std::string fileName, float zoomFactor, bool isEnabled) {
+GameObject::GameObject(float x, float y, float z, const char* fileName, float zoomFactor, bool isEnabled) {
 	setPosition(x, y);
 	_z = z;
 	_fileName = fileName;
@@ -16,7 +17,7 @@ void GameObject::init(Game* game) {
 	_game = game;
 	_textureAtlas = _game->getTextureAtlas();
 	_renderer = _game->getRenderer();
-	_texture = _textureAtlas->getTexture();
+	_texture = (SDL_Texture*) _textureAtlas->getTexture();
 	_sourceRect = _textureAtlas->getRect(_fileName);
 
 	updateDestinationRect();
@@ -36,7 +37,7 @@ void GameObject::render() {
 		return;
 	}
 
-	SDL_RenderCopy(_renderer, _texture, _sourceRect, &_destinationRect);
+	SDL_RenderCopy(_renderer, _texture, &_sourceRect, &_destinationRect);
 }
 
 float GameObject::getZindex() {
@@ -56,13 +57,13 @@ void GameObject::setEnabled(bool isEnabled) {
 	_isVisible = isEnabled;
 }
 
-SDL_Rect* GameObject::getCollisionArea() {
-	return &_destinationRect;
+SDL_Rect GameObject::getCollisionArea() {
+	return _destinationRect;
 }
 
 void GameObject::updateDestinationRect() {
 	_destinationRect.x = static_cast<int>(_x);
 	_destinationRect.y = static_cast<int>(_y);
-	_destinationRect.w = static_cast<int>(_sourceRect->w * _zoomFactor);
-	_destinationRect.h = static_cast<int>(_sourceRect->h * _zoomFactor);
+	_destinationRect.w = static_cast<int>(_sourceRect.w * _zoomFactor);
+	_destinationRect.h = static_cast<int>(_sourceRect.h * _zoomFactor);
 }

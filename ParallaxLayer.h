@@ -6,7 +6,7 @@ class ParallaxLayer : public GameObject {
 
 public:
 
-	ParallaxLayer(float y, float z, std::string fileName, int speed, int screenWidth);
+	ParallaxLayer(float y, float z, const char* fileName, int speed, int screenWidth);
 	~ParallaxLayer();
 
 	void update() override;
